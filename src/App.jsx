@@ -1,85 +1,80 @@
-import { useState } from 'react';
-import { connectToMetamask, checkApprovals, revokeToken } from './utils/web3';
+import React from 'react';
+import { useAccount } from 'wagmi';
+// وارد کردن هوک‌های منطقی جدید
+import { useCheckApprovals, useRevokeApproval } from './utils/wagmiHooks'; 
 
 function App() {
-  const [address, setAddress] = useState('');
-  const [approvals, setApprovals] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const { address, isConnected, chain } = useAccount();
+  
+  // استفاده از هوک‌های سفارشی
+  const { approvals, isLoading, scanForApprovals } = useCheckApprovals(); 
+  const { revokeApproval, isRevoking } = useRevokeApproval();
 
-  const handleConnect = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const connectedAddress = await connectToMetamask();
-      setAddress(connectedAddress);
-    } catch (e) {
-      setError(e.message || 'Failed to connect wallet.');
-    } finally {
-      setLoading(false);
+  const openModal = () => {
+    if (window.w3m) {
+        window.w3m.open(); // فراخوانی تابع سراسری Web3Modal
     }
   };
-
-  const handleCheckApprovals = async () => {
-    if (!address) {
-      setError('Please connect your wallet first.');
-      return;
-    }
-    try {
-      setLoading(true);
-      setError(null);
-      // Fetch approvals from our Cloudflare Worker backend
-      const response = await fetch(`https://revokeguard-worker.yourdomain.com/approvals?address=${address}`); // Placeholder
-      const data = await response.json();
-      setApprovals(data.approvals || []);
-    } catch (e) {
-      setError('Failed to fetch approvals from worker.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleRevoke = async (approval) => {
-    try {
-      setLoading(true);
-      setError(null);
-      await revokeToken(approval.contract, approval.spender);
-      alert('Revoked successfully!');
-      // Refresh list after revoking
-      handleCheckApprovals(); 
-    } catch (e) {
-      setError(e.message || 'Revocation failed.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  
   return (
     <div className="container">
-      <h1>RevokeGuard 🛡️</h1>
-      <p>Secure your DeFi assets by reviewing and revoking token allowances.</p>
+      <header>
+        <h1>RevokeGuard</h1>
+        <p>Your DeFi Approval Manager</p>
+      </header>
       
-      <button onClick={handleConnect} disabled={loading || address}>
-        {address ? `Connected: ${address.slice(0, 6)}...` : 'Connect Wallet'}
-      </button>
-
-      {error && <div className="error">{error}</div>}
-
-      <button onClick={handleCheckApprovals} disabled={loading || !address} style={{ marginLeft: '10px' }}>
-        {loading ? 'Scanning...' : 'Scan Approvals'}
-      </button>
-      
-      <div className="approvals-list">
-        <h2>Your Approvals ({approvals.length})</h2>
-        {approvals.map((app, index) => (
-          <div key={index} className="approval-item">
-            <p><strong>Token:</strong> {app.tokenName || 'Unknown'}</p>
-            <p><strong>Spender:</strong> {app.spender.slice(0, 10)}...</p>
-            <button onClick={() => handleRevoke(app)} disabled={loading}>Revoke</button>
-          </div>
-        ))}
-        {approvals.length === 0 && !loading && address && <p>No high-risk approvals found or scan failed.</p>}
+      {/* ناحیه اتصال کیف پول */}
+      <div className="wallet-area">
+        {isConnected ? (
+            // w3m-button کامپوننت دکمه اتصال/قطع Web3Modal است
+            <w3m-button />
+        ) : (
+            <button onClick={openModal} className="connect-button">
+              Connect Wallet
+            </button>
+        )}
       </div>
+
+      {isConnected && address && (
+        <div className="app-content">
+          <h2>Approvals Scanner</h2>
+          <p>
+            Connected: <strong>{address.slice(0, 6)}...{address.slice(-4)}</strong> on <strong>{chain.name}</strong>.
+          </p>
+
+          <button 
+            className="scan-button" 
+            onClick={scanForApprovals} 
+            disabled={isLoading || isRevoking}
+          >
+            {isLoading ? 'Scanning...' : 'Scan Approvals'}
+          </button>
+          
+          <div className="result-area">
+            {/* نمایش نتایج اسکن */}
+            {isLoading && <p>Scanning for approvals. Please wait...</p>}
+
+            {approvals.length > 0 ? (
+                approvals.map((approval, index) => (
+                    <div key={index} className="approval-item">
+                        <p>
+                            **Token:** {approval.token} ({approval.amount.toString()})<br/>
+                            **Spender:** {approval.spender.slice(0, 6)}...{approval.spender.slice(-4)}
+                        </p>
+                        <button 
+                            onClick={() => revokeApproval(approval)} 
+                            disabled={isRevoking}
+                        >
+                            {isRevoking ? 'Revoking...' : 'Revoke'}
+                        </button>
+                    </div>
+                ))
+            ) : (
+                !isLoading && <p>No high-risk approvals found.</p>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
