@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import './App.css';
 import { connectToMetamask, checkApprovals, revokeToken } from './utils/web3';
 
 function App() {
