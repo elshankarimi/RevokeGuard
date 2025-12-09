@@ -1,11 +1,11 @@
-name = "revokeguard-worker"
-main = "worker/index.js"
+name = "revokeguard-frontend"
+
+# مسیر خروجی Build پروژه (Cloudflare Pages از این استفاده می‌کند)
+pages_build_output_dir = "dist"
+
+# غیرفعال کردن Worker ها (چون پروژه فقط Frontend Pages است)
+main = ""
 compatibility_date = "2024-01-01"
 
-[vars]
-# Placeholder for environment variables set via `wrangler secrets put` or GitHub Secrets
-# These values will be automatically injected by Cloudflare during deployment.
-# We explicitly list them here for clarity, though they are set as GitHub Secrets already.
-# VAPID_PRIVATE_KEY = ""
-# VAPID_PUBLIC_KEY = ""
-# COVALENT_KEY = ""
+# تنظیمات اضافی پیشنهادی
+workers_dev = false
