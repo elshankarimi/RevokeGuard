@@ -1,26 +1,26 @@
 import React, { useState } from 'react'
-import { useAccount } from 'wagmi'
+import { useAccount, useSigner } from 'wagmi'
 import RevokeRow from './RevokeRow'
+import { fetchApprovals } from './revokeScanner'
 
 export default function RevokeScanner() {
   const { address, isConnected } = useAccount()
+  const { data: signer } = useSigner()
   const [approvals, setApprovals] = useState([])
   const [loading, setLoading] = useState(false)
 
   const scanApprovals = async () => {
     if (!address) return
     setLoading(true)
-
-    // اینجا باید API یا logic اسکن approval ها اضافه شود
-    // برای نمونه، داده‌های mock:
-    const mockApprovals = [
-      { token: 'USDT', spender: '0xabc123...', allowance: '1000' },
-      { token: 'DAI', spender: '0xdef456...', allowance: '500' }
-    ]
-    setTimeout(() => {
-      setApprovals(mockApprovals)
+    try {
+      const data = await fetchApprovals(address)
+      setApprovals(data)
+    } catch (err) {
+      console.error(err)
+      alert('خطا در اسکن دسترسی‌ها')
+    } finally {
       setLoading(false)
-    }, 1000)
+    }
   }
 
   return (
@@ -32,7 +32,7 @@ export default function RevokeScanner() {
           {loading && <p>در حال اسکن...</p>}
           <div>
             {approvals.map((a, idx) => (
-              <RevokeRow key={idx} approval={a} />
+              <RevokeRow key={idx} approval={a} signer={signer} />
             ))}
           </div>
         </>
