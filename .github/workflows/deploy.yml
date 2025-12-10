@@ -1,0 +1,39 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ کلون کردن مخزن
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # 2️⃣ نصب Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      # 3️⃣ نصب وابستگی‌ها
+      - name: Install Dependencies
+        run: npm install
+
+      # 4️⃣ build پروژه با Vite
+      - name: Build Project
+        run: npm run build
+
+      # 5️⃣ deploy به Cloudflare Pages
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          projectName: revokeguard-frontend
+          directory: ./dist
