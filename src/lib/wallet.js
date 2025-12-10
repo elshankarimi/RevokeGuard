@@ -2,7 +2,8 @@
 import { configureChains, createClient } from 'wagmi'
 import { mainnet, polygon, arbitrum, optimism, base } from 'wagmi/chains'
 import { injectedWallet, walletConnectWallet } from '@rainbow-me/rainbowkit/wallets'
-import { publicProvider } from '@wagmi/providers/public' // <-- مسیر درست در نسخه جدید wagmi
+// مسیر درست publicProvider در نسخه‌های جدید
+import { publicProvider } from 'wagmi/providers/public'
 
 const chains = [mainnet, polygon, arbitrum, optimism, base]
 
