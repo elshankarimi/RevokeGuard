@@ -1,10 +1,7 @@
-import React from "react";
-import { AppKitButton } from "@reown/appkit/react";
+// src/components/ConnectWallet.jsx
+import React from "react"
+import { Web3Modal } from "@web3modal/react"
 
 export default function ConnectWallet() {
-  return (
-    <div>
-      <AppKitButton />
-    </div>
-  );
+  return <Web3Modal projectId="YOUR_PROJECT_ID" />
 } 
