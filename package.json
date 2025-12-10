@@ -8,13 +8,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "viem": "^2.11.0",
-    "wagmi": "^2.9.2",
-    "[@tanstack](https://farcaster.xyz/tanstack)/react-query": "^5.37.1",
-    "[@web3modal](https://farcaster.xyz/web3modal)/wagmi": "^4.2.0"
-  },
+  "react": "^18.2.0",
+  "react-dom": "^18.2.0",
+  "viem": "^2.11.0",
+  "wagmi": "^2.9.2",
+  "[@tanstack](https://farcaster.xyz/tanstack)/react-query": "^5.37.1",
+  "[@web3modal](https://farcaster.xyz/web3modal)/wagmi": "^4.2.0"
+  }
   "devDependencies": {
     "[@types](https://farcaster.xyz/types)/react": "^18.2.43",
     "[@types](https://farcaster.xyz/types)/react-dom": "^18.2.17",
