@@ -1,35 +1,44 @@
 # RevokeGuard - DeFi Approval Manager 🔰
 
-RevokeGuard is a crucial security tool for managing and revoking token allowances and approvals across multiple EVM chains.  
-This project utilizes **Cloudflare Workers** and **Cloudflare Pages** for real-time monitoring and a secure frontend experience.
+RevokeGuard یک ابزار امنیتی حیاتی برای مدیریت و لغو دسترسی‌ها و approval توکن‌ها در شبکه‌های مختلف EVM است.  
+این پروژه از **Cloudflare Workers** و **Cloudflare Pages** برای مانیتورینگ بلادرنگ و تجربه‌ی امن در فرانت‌اند استفاده می‌کند.
 
 ---
 
 ## 🚀 Deployment Status
 
-- **Frontend:** Deployed via [Cloudflare Pages](https://revokeguard-frontend.pages.dev/)
-- **Backend:** Deployed via Cloudflare Worker (`revokeguard-worker`)
+- **Frontend:** منتشر شده در [Cloudflare Pages](https://revokeguard-frontend.pages.dev/)
+- **Backend:** منتشر شده در Cloudflare Worker (`revokeguard-worker`)
 
 ---
 
-## 🛡️ What does RevokeGuard do?
-- Scan and detect all token approvals across various DeFi platforms and EVM chains.
-- Instantly revoke risky or unnecessary approvals to boost your wallet’s security.
-- All on a fast and privacy-friendly stack (Cloudflare infra).
+## 🛡️ قابلیت‌ها
+- اسکن و شناسایی تمام token approvals در پلتفرم‌های مختلف DeFi و شبکه‌های EVM.
+- لغو سریع دسترسی‌های پرریسک یا غیرضروری برای افزایش امنیت کیف پول.
+- همه‌ی عملیات با سرعت بالا و حریم خصوصی امن (Cloudflare infra).
 
 ---
 
 ## 🛠️ Tech Stack
 - **Frontend:** React + Vite
-- **Backend:** Cloudflare Workers (serverless API)
+- **Backend:** Cloudflare Workers (Serverless API)
 - **Deployment:** Cloudflare Pages
 
-  ---
+---
 
-## ℹ️ Usage
-1. Go to the [RevokeGuard mini-app on Farcaster](https://revokeguard-frontend.pages.dev/).
-2. Connect your wallet.
-3. Scan your approvals and revoke insecure ones—all directly from within Farcaster frames!
+## ℹ️ نحوه استفاده
+1. به [mini-app RevokeGuard در Farcaster](https://revokeguard-frontend.pages.dev/) بروید.
+2. کیف پول خود را متصل کنید.
+3. دسترسی‌ها را اسکن کرده و موارد ناامن را لغو کنید — همه از داخل فریم Farcaster!
+
+---
+
+## ⚠️ نکات امنیتی و توصیه‌ها
+- هرگز private key یا seed phrase خود را در پروژه یا مرورگر ذخیره نکنید.
+- برای کلیدهای RPC و API از Environment Variables در Cloudflare Pages استفاده کنید.
+- قبل از انجام هر عملیات revoke، تراکنش‌ها را بررسی کنید و مطمئن شوید که قراردادهای مطمئن هستند.
+- فقط از شبکه‌های اصلی (Mainnet / Polygon / ...) استفاده کنید و از شبکه‌های ناشناخته خودداری کنید.
+- این ابزار هیچ‌گاه وجوه شما را نگه نمی‌دارد؛ فقط دسترسی‌ها را مدیریت می‌کند.
 
 ---
 
