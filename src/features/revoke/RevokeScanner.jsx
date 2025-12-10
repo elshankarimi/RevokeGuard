@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useAccount, useSigner } from 'wagmi'
 import RevokeRow from './RevokeRow'
 import { fetchApprovals } from './revokeScanner'
+import { getFarcasterProfile } from '../farcaster/farcasterAPI'
 
 export default function RevokeScanner() {
   const { address, isConnected } = useAccount()
@@ -15,6 +16,10 @@ export default function RevokeScanner() {
     try {
       const data = await fetchApprovals(address)
       setApprovals(data)
+
+      // گرفتن پروفایل Farcaster برای نمایش یا اعلان
+      const profile = await getFarcasterProfile(address)
+      console.log('Farcaster profile:', profile)
     } catch (err) {
       console.error(err)
       alert('خطا در اسکن دسترسی‌ها')
