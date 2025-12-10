@@ -1,27 +1,29 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { WagmiConfig, createClient, configureChains, mainnet } from 'wagmi';
-import { publicProvider } from "wagmi/providers/public";
-import { Web3Modal } from '@web3modal/react';
-import App from './App';
-import './index.css';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { WagmiConfig, createConfig, configureChains, mainnet } from 'wagmi'
+import { publicProvider } from 'wagmi/providers/public'
+import { EthereumClient, w3mProvider, w3mConnectors, Web3Modal } from '@web3modal/ethereum'
+import App from './App'
+import './index.css'
 
 // 1️⃣ پیکربندی شبکه‌ها و provider ها
-const { chains, provider } = configureChains([mainnet], [publicProvider()]);
+const chains = [mainnet]
+const projectId = "REPLACE_WITH_YOUR_PROJECT_ID"
 
-// 2️⃣ ساخت کلاینت Wagmi
-const wagmiClient = createClient({
+const config = createConfig({
   autoConnect: true,
-  provider,
-});
+  connectors: w3mConnectors({ projectId, chains }),
+  publicClient: w3mProvider({ projectId })(chains)
+})
 
-// 3️⃣ رندر برنامه
+const ethereumClient = new EthereumClient(config, chains)
+
+// 2️⃣ رندر برنامه
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <WagmiConfig client={wagmiClient}>
+    <WagmiConfig config={config}>
       <App />
-      {/* Web3Modal کامپوننت */}
-      <Web3Modal projectId="REPLACE_WITH_YOUR_PROJECT_ID" ethereumClient={wagmiClient} />
+      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
     </WagmiConfig>
   </React.StrictMode>
-);
+)
