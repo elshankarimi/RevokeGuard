@@ -1,43 +1,14 @@
-import { getDefaultConfig } from '@rainbow-me/rainbowkit';
-import {
-  RainbowKitProvider,
-  connectorsForWallets
-} from '@rainbow-me/rainbowkit';
+// src/lib/wallet.js
+import { configureChains, createClient } from 'wagmi'
+import { mainnet, polygon, arbitrum, optimism, base } from 'wagmi/chains'
+import { injectedWallet, walletConnectWallet } from '@rainbow-me/rainbowkit/wallets'
+import { publicProvider } from 'wagmi/providers/public'
 
-import {
-  rainbowWallet,
-  metaMaskWallet,
-  coinbaseWallet,
-  walletConnectWallet,
-  rabbyWallet
-} from '@rainbow-me/rainbowkit/wallets';
+const chains = [mainnet, polygon, arbitrum, optimism, base]
 
-import {
-  mainnet,
-  polygon,
-  arbitrum,
-  optimism,
-  base
-} from 'wagmi/chains';
+export const { connectors } = configureChains(chains, [publicProvider()])
 
-import { injected } from '@wagmi/connectors';
-
-const projectId = "ac634d78fb9387e384997db507c695b3"; // walletConnect Project ID
-
-export const config = getDefaultConfig({
-  appName: "RevokeGuard",
-  projectId,
-  chains: [mainnet, polygon, arbitrum, optimism, base],
-  wallets: [
-    {
-      groupName: "Popular Wallets",
-      wallets: [
-        metaMaskWallet,
-        rainbowWallet,
-        rabbyWallet,
-        coinbaseWallet,
-        walletConnectWallet
-      ]
-    }
-  ]
-}); 
+export const wagmiClient = createClient({
+  autoConnect: true,
+  connectors,
+}) 
