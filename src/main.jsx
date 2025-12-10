@@ -51,4 +51,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Web3Modal projectId={projectId} chains={chains} />
     </WagmiProvider>
   </React.StrictMode>
-)
+) 
