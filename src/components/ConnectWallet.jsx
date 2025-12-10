@@ -1,10 +1,10 @@
-// src/components/ConnectWallet.jsx
 import React from "react";
+import { Web3Button } from "@web3modal/wagmi/react";
 
 export default function ConnectWallet() {
   return (
     <div>
-      <ConnectButton showBalance={false} />
+      <Web3Button />
     </div>
   );
 }
