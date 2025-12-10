@@ -1,43 +1,27 @@
-// src/App.jsx
 import React from "react";
-import { WagmiConfig, createClient, configureChains, chain } from "wagmi";
-import { publicProvider } from "wagmi/providers/public";
-import { walletConnectors } from "./lib/wallet";
-import ConnectWallet from "./components/ConnectWallet";
-import CastGate from "./components/CastGate";
+import { WagmiProvider, createConfig, http } from "wagmi";
+import { mainnet, base } from "@wagmi/core/chains";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AppKitButton } from "@reown/appkit/react";
 
-// تنظیم شبکه و کلاینت
-const { chains, provider } = configureChains(
-  [chain.mainnet, chain.goerli],
-  [publicProvider()]
-);
-
-const wagmiClient = createClient({
-  autoConnect: true,
-  connectors: walletConnectors,
-  provider,
+const config = createConfig({
+  chains: [mainnet, base],
+  transports: {
+    [mainnet.id]: http(),
+    [base.id]: http(),
+  },
 });
 
-function AppContent() {
-  return (
-    <CastGate>
-      <div style={{ textAlign: "center", marginTop: "50px" }}>
-        <h1>سلام! مینی اپ Revokeguard آماده استفاده است 🎉</h1>
-        <p>حالا که Cast کردی، می‌توانی تمام امکانات را ببینی.</p>
-      </div>
-    </CastGate>
-  );
-}
+const queryClient = new QueryClient();
 
 export default function App() {
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
-        <div>
-          <ConnectWallet />
-          <AppContent />
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <div style={{ padding: 20 }}>
+          <AppKitButton />
         </div>
-      </RainbowKitProvider>
-    </WagmiConfig>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
-}
+} 
