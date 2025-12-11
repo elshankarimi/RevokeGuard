@@ -2,24 +2,20 @@
 
 import { configureChains, createClient, chain } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
-import {
-  injectedWallet,
-  metaMaskWallet,
-  rainbowWallet,
-  walletConnectWallet
+import { 
+  injectedWallet, 
+  metaMaskWallet, 
+  rainbowWallet, 
+  walletConnectWallet 
 } from '@rainbow-me/rainbowkit/wallets'
 
-// ------------------------
-// Configure chains and providers
-// ------------------------
+// تنظیم شبکه‌ها و provider
 export const { chains, provider } = configureChains(
   [chain.mainnet, chain.polygon, chain.arbitrum, chain.optimism, chain.base],
   [publicProvider()]
 )
 
-// ------------------------
-// Wallet connectors
-// ------------------------
+// تنظیم کانکتور ولت‌ها
 export const connectors = [
   injectedWallet({ chains }),
   metaMaskWallet({ chains }),
@@ -27,9 +23,7 @@ export const connectors = [
   walletConnectWallet({ chains })
 ]
 
-// ------------------------
-// Create Wagmi client
-// ------------------------
+// ساخت Wagmi client
 export const wagmiClient = createClient({
   autoConnect: true,
   connectors,
