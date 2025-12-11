@@ -1,7 +1,7 @@
 // src/lib/wallet.js
 
 import { configureChains, createClient, chain } from 'wagmi'
-import { publicProvider } from '@wagmi/core/providers/public'
+import { publicProvider } from 'wagmi/providers/public'
 import {
   injectedWallet,
   metaMaskWallet,
@@ -10,7 +10,7 @@ import {
 } from '@rainbow-me/rainbowkit/wallets'
 
 // ------------------------
-// 1. Configure chains
+// Configure chains and providers
 // ------------------------
 export const { chains, provider } = configureChains(
   [chain.mainnet, chain.polygon, chain.arbitrum, chain.optimism, chain.base],
@@ -18,7 +18,7 @@ export const { chains, provider } = configureChains(
 )
 
 // ------------------------
-// 2. Set up wallet connectors
+// Wallet connectors
 // ------------------------
 export const connectors = [
   injectedWallet({ chains }),
@@ -28,7 +28,7 @@ export const connectors = [
 ]
 
 // ------------------------
-// 3. Create Wagmi client
+// Create Wagmi client
 // ------------------------
 export const wagmiClient = createClient({
   autoConnect: true,
