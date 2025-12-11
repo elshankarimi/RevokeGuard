@@ -1,0 +1,18 @@
+{
+  "accountAssociation": {
+    "header": "eyJmaWQiOjEwOTU4OTIsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHhhQjI4MUFBQzA2YjBERGI5MzVFNkRDMjM3MjBlOEY4Mzg4RWJjNDUyIn0",
+    "payload": "eyJkb21haW4iOiJyZXZva2VndWFyZC1mcm9udGVuZC5wYWdlcy5kZXYifQ",
+    "signature": "SBcZi1wKfJMVwSqs/AFKs6JIBTJgNTNOyv4DSZzKqyJi9vPBJGqF/LDPxDNUn0nS7GtVmNg1SwJln5HVGKFqxhs="
+  },
+  "frame": {
+    "version": "1",
+    "name": "Example Frame",
+    "iconUrl": "https://revokeguard-frontend.pages.dev/icon.png",
+    "homeUrl": "https://revokeguard-frontend.pages.dev",
+    "imageUrl": "https://revokeguard-frontend.pages.dev/image.png",
+    "buttonTitle": "Check this out",
+    "splashImageUrl": "https://revokeguard-frontend.pages.dev/splash.png",
+    "splashBackgroundColor": "#eeccff",
+    "webhookUrl": "https://revokeguard-frontend.pages.dev/api/webhook"
+  }
+}
